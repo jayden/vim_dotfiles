@@ -35,7 +35,8 @@ set incsearch
 set showmatch
 set hlsearch
 noremap <silent> <leader><space> :noh<cr>:call clearmatches()<cr>
-nnoremap <leader>a :Ack<space>
+nnoremap <leader>a :Ag<space>
+nnoremap <leader>s :vsplit<cr>
 
 set cursorline
 set wrap
@@ -43,7 +44,9 @@ set noswapfile
 set bs=2
 
 if &t_Co == 256
-  colorscheme Tomorrow-Night
+  "colorscheme lucius
+  let base16colorspace=256
+  colorscheme base16-flat
   set t_ut=
 endif
 
@@ -108,18 +111,6 @@ set winwidth=90
 set winminwidth=15
 
 " no arrow keys in normal and insert modes
-nnoremap <up> <nop>
-nnoremap <down> <nop>
-nnoremap <left> <nop>
-nnoremap <right> <nop>
-inoremap <up> <nop>
-inoremap <down> <nop>
-inoremap <left> <nop>
-inoremap <right> <nop>
-vnoremap <up> <nop>
-vnoremap <down> <nop>
-vnoremap <left> <nop>
-vnoremap <right> <nop>
 noremap j gj
 noremap k gk
 noremap gj j
@@ -169,3 +160,65 @@ function! ScratchToggle()
 endfunction
 
 nnoremap <silent> <leader><tab> :ScratchToggle<cr>
+
+set tabstop=2 shiftwidth=2 backspace=2 expandtab
+set autoindent nowrap
+nnoremap <leader><leader> <c-^>
+
+" format JSON
+map <Leader>j !python -m json.tool<CR>
+
+set wildignore+=*/target/*
+set wildignore+=bower_components,node_modules
+
+autocmd VimEnter * RainbowParentheses
+
+let g:rainbow#max_level = 16
+let g:rainbow#pairs = [['(', ')'], ['[', ']']]
+
+" By default, colors will be picked from the current color scheme
+" " To override this behavior, define g:rainbow#colors as follows
+" " (The colors in the example were taken from VimClojure)
+ let g:rainbow#colors = {
+ \   'dark': [
+ \     ['yellow',  'orange1'     ],
+ \     ['green',   'yellow1'     ],
+ \     ['cyan',    'greenyellow' ],
+ \     ['magenta', 'green1'      ],
+ \     ['red',     'springgreen1'],
+ \     ['yellow',  'cyan1'       ],
+ \     ['green',   'slateblue1'  ],
+ \     ['cyan',    'magenta1'    ],
+ \     ['magenta', 'purple1'     ]
+ \   ],
+ \   'light': [
+ \     ['darkyellow',  'orangered3'    ],
+ \     ['darkgreen',   'orange2'       ],
+ \     ['blue',        'yellow3'       ],
+ \     ['darkmagenta', 'olivedrab4'    ],
+ \     ['red',         'green4'        ],
+ \     ['darkyellow',  'paleturquoise3'],
+ \     ['darkgreen',   'deepskyblue4'  ],
+ \     ['blue',        'darkslateblue' ],
+ \     ['darkmagenta', 'darkviolet'    ]
+ \   ]
+ \ }
+
+ let NERDTreeIgnore=['\.DS_Store$', '\.vim$']
+
+ autocmd BufRead,BufWritePre *.java :UnusedImports
+
+ vnoremap <leader>su :sort ui<CR>
+
+ let g:indentLine_color_term = 239
+ let g:indentLine_color_gui = '#09AA08'
+ let g:indentLine_char = '│'
+
+ let g:spotify_country_code = 'US'
+ nnoremap <leader>m :Spotify<space>
+
+" vim-rspec config
+ let g:rspec_command = 'call Send_to_Tmux("bundle exec rspec {spec}\n")'
+ let g:rspec_runner = "os_x_iterm"
+ map <Leader>at :call RunCurrentSpecFile()<CR>
+ map <Leader>rt :call RunNearestSpec()<CR>
